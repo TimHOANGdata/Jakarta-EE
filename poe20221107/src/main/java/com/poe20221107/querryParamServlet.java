@@ -17,3 +17,5 @@ public class querryParamServlet extends HttpServlet{
         response.getWriter().append("<p>"+prenom+"</p>");
     }
 }
+//Utiliser query param pour les request dynamique.
+//http://localhost:8080/poe20221107/param?prenom=Tim

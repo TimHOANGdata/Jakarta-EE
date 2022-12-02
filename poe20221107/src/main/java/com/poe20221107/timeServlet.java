@@ -20,7 +20,5 @@ public class timeServlet extends HttpServlet {
         LocalDateTime now = LocalDateTime.now();
         response.getWriter().append("<h1>HORLOGE<h1>");
         response.getWriter().append("<h2>"+dtf.format(now)+"<h2>");
-       
-        
     }
 }
