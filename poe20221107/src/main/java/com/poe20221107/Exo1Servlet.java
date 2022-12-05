@@ -32,7 +32,7 @@ public class Exo1Servlet extends HttpServlet{
             // On recupère la position du joueur
             int number1 =  Integer.parseInt(number);
             
-            //on recupere les informations de la partie
+            //on recupere les informations de la partie stocké dans la session
             Integer random_int = (Integer) request.getSession().getAttribute("random_int"); 
             Integer tentative = (Integer) request.getSession().getAttribute("tentative");
             
