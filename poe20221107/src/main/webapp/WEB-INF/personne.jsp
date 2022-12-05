@@ -1,14 +1,17 @@
+
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!<!-- fichier jsp permet le serveur Tomcat generer un page -->
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <link rel="stylesheet" href="style.css"/>
     </head>
     <body>
-        <h1>Hello World! JSP</h1>
-        <p>${horaire}</p>
-        
+        <h1>Personne :</h1>
+        <h2>nom: ${a}</h2>
+        <h2>prenom: ${b}</h2>
+        <h2>${personne}</h2>
     </body>
 </html>

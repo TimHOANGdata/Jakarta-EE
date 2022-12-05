@@ -2,6 +2,7 @@
 package com.poe20221107;
 
 import java.io.IOException;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +14,7 @@ public class Exo4Servlet extends HttpServlet {
     
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) 
-            throws IOException
+            throws IOException, ServletException
     {       
         // modification session
         String prenom = request.getParameter("prenom");
@@ -25,11 +26,14 @@ public class Exo4Servlet extends HttpServlet {
         
         // écrire dans le navigateur le contenu de la session
         Personne p = (Personne)request.getSession().getAttribute("personne");
+        
         if(p == null){
             p = new Personne();
         }
-        response.getWriter().append("<p>Prénom: "+p.getPrenom()+"</p>");
-        response.getWriter().append("<p>Nom: "+p.getNom()+"</p>");
+        request.setAttribute("a",p.getNom());
+        request.setAttribute("b",p.getPrenom());
+        request.setAttribute("personne",p.toString());
+        request.getRequestDispatcher("WEB-INF/personne.jsp").forward(request,response);
         
     }
 }
