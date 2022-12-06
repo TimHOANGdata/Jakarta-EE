@@ -6,10 +6,21 @@ package com.poe20221107;
 public class Personne{
     private String nom;
     private String prenom;
+    private int age;
     
-    public Personne(String nom, String prenom){
+    
+    public Personne(String nom, String prenom, int age){
         this.nom = nom;
         this.prenom = prenom;
+        this.age = age;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
     public Personne(){
     }

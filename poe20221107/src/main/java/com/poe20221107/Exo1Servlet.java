@@ -7,76 +7,95 @@
 //    re-affecter la valeur
 //-> limiter le nombre de tentatives autorisées pour chaque partie
 package com.poe20221107;
+
 import java.io.IOException;
-import java.util.HashSet;
+
+import java.util.Random;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-//Verb 
-
-@WebServlet("/exo1")
-public class Exo1Servlet extends HttpServlet{
-//    int random_int = (int) Math.floor(Math.random() * 11);
-    int nombreDeTentative =4;
-//    int tentative = 0;
+// GET /jeunombre?nombre=5
+@WebServlet("/jeunombre")
+public class Exo1Servlet extends HttpServlet {
+    
     
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws IOException{
+            throws IOException {
+        // On récupère les informations de la partie stocké dans la Session
+        Integer nombreADeviner = (Integer) request.getSession().getAttribute("nombreADeviner");
+        Integer nombreTentativesRestantes = (Integer) request.getSession().getAttribute("nombreTentativesRestantes");
+        Integer nombreJoueur = (Integer) request.getSession().getAttribute("nombreJoueur");
+
+        // Initialisation de la partie
+        if (nombreADeviner == null) {
+            nombreADeviner = new Random().nextInt(1, 11);
+            nombreTentativesRestantes = 3;
+            request.getSession().setAttribute("nombreTentativesRestantes", nombreTentativesRestantes);
+            request.getSession().setAttribute("nombreADeviner", nombreADeviner);
+        }
         
-        String number = request.getParameter("number");
-       
-            try{
-            // On recupère la position du joueur
-            int number1 =  Integer.parseInt(number);
-            
-            //on recupere les informations de la partie stocké dans la session
-            Integer random_int = (Integer) request.getSession().getAttribute("random_int"); 
-            Integer tentative = (Integer) request.getSession().getAttribute("tentative");
-            
-           // Initialisation de la partie
-           if(random_int == null){
-               random_int = (int) Math.floor(Math.random() * 11);
-               tentative = 0;
-           }
-            response.getWriter().append("<h1>nombre a deviner: "+random_int+"<h1>");
-            
-            if(tentative < nombreDeTentative){
-                
-                if(number1==random_int){
-                    response.getWriter().append("<h1>fecilitation, gagné<h1>");
-                    tentative = 0;
-                    random_int = (int) Math.floor(Math.random() * 11);
-                    response.getWriter().append("<h1>veuillez saisir un nombre pour recommencer<h1>");
-                    
-                }else{
-                    if(number1>random_int){
-                    response.getWriter().append("<h1>trop grand<h1>");
-                    
-                    }else{
-                    response.getWriter().append("<h1>trop petit<h1>");
-                    }response.getWriter().append("<h1>il vous reste :" + (nombreDeTentative-tentative)+"tentatives<h1>");
+        response.getWriter().append("<p>Nombre à deviner: " + nombreADeviner + "</p>");
+        response.getWriter().append("<p>Nombre joué: " + nombreJoueur + "</p>");
+        response.getWriter().append("<p>Nombre tentatives restantes: " + nombreTentativesRestantes + "</p>");
+
+        // Ajout du form
+        response.getWriter().append("<form action=\"jeunombre\" method=\"POST\">");
+        response.getWriter().append("<label>Votre proposition:</label>");
+        response.getWriter().append("<input type=\"text\" name=\"nombre\"/>");
+        response.getWriter().append("<input  type=\"submit\" value=\"Jouer\"/>");
+        response.getWriter().append("</form>");
+
+        
+    }
+
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        try {
+            // On récupère la proposition du joueur 
+            String nombreJoueurString = request.getParameter("nombre");
+            int nombreJoueur = Integer.parseInt(nombreJoueurString);
+
+            // On récupère les informations de la partie stocké dans la Session
+            Integer nombreADeviner = (Integer) request.getSession().getAttribute("nombreADeviner");
+            Integer nombreTentativesRestantes = (Integer) request.getSession().getAttribute("nombreTentativesRestantes");
+
+            // Algo du jeu
+            nombreTentativesRestantes--;
+
+            if (nombreJoueur == nombreADeviner) {
+                response.getWriter().append("<p>Bravo c'est gagné !</p>");
+                response.getWriter().append("<p>Nouvelle partie démarrée</p>");
+                nombreADeviner = new Random().nextInt(1, 11);
+                nombreTentativesRestantes = 3;
+            } else {
+                if (nombreJoueur > nombreADeviner) {
+                    response.getWriter().append("<p>c'est trop grand</p>");
+                } else {
+                    response.getWriter().append("<p>c'est trop petit</p>");
                 }
-            }else{
-                if(number1==random_int){
-                     response.getWriter().append("<h1>fecilitation, gagné<h1>");
-                }else{
-                    response.getWriter().append("<h1>vous avez perdu<h1>");
+
+                if (nombreTentativesRestantes == 0) {
+                    response.getWriter().append("<p>PERDU, nombre de tentatives maximum atteint</p>");
+                    response.getWriter().append("<p>Nouvelle partie démarrée</p>");
+                    nombreADeviner = new Random().nextInt(1, 11);
+                    nombreTentativesRestantes = 3;
                 }
-                tentative =0;
-                random_int = (int) Math.floor(Math.random() * 11);
-                response.getWriter().append( "<h1>veuillez saisir un nombre pour recommencer<h1>");
-                
-            }tentative++;
-            request.getSession().setAttribute("random_int",random_int);
-            request.getSession().setAttribute("tentative", tentative);
-            
-                
-        }catch(NumberFormatException e){
-            response.getWriter().append("<h1>erreur, il faut entrer un nombre <h1>");
+            }
+
+            // Sauvegarde partie dans la Session
+            request.getSession().setAttribute("nombreADeviner", nombreADeviner);
+            request.getSession().setAttribute("nombreTentativesRestantes", nombreTentativesRestantes);
+            request.getSession().setAttribute("nombreJoueur", nombreJoueur);
+
+            doGet(request, response);
+        } catch (NumberFormatException e) {
+            response.getWriter().append("<p>Erreur : Veuillez saisir un nombre</p>");
+            response.getWriter().append("<a href=\"jeunombre\">Revenir à la partie</a>");
         }
     }
+
 }
-    
