@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 // GET /jeunombre?nombre=5
 @WebServlet("/jeunombre")
-public class Exo1Servlet extends HttpServlet {
+public class Exo1Servlet_number extends HttpServlet {
     
     
     @Override

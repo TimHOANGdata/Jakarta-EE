@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 // GET /personnesession
 @WebServlet("/personnesession")
-public class Exo4Servlet extends HttpServlet {
+public class Exo4Servlet_personne extends HttpServlet {
     private List<Personne> personnes = new ArrayList<>();
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) 
@@ -63,8 +63,8 @@ public class Exo4Servlet extends HttpServlet {
         doGet(request,response); //pour l'affichage de page, on a deja dans le methode doGet
         //il permet d'eviter la repetition de code
         }catch(Exception e){
-            response.getWriter().append("<p>erreur dans la formulaire");
-            response.getWriter().append("<a href=\"jeunombre\">retour</a>");
+                response.getWriter().append("<p>erreur dans la formulaire");
+                response.getWriter().append("<a href=\"jeunombre\">retour</a>");
         }
     }
 }
