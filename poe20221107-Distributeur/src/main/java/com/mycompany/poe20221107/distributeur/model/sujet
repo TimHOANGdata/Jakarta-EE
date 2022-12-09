@@ -1,0 +1,6 @@
+TP DISTRIBUTEUR;
+Vous êtes devant un distributeur de boissons et de sucreries.
+Vous pouvez insérer de l’argent et choisir ce que vous voulez.
+Chaque produit a un prix.
+S’il n’y a pas assez d’argent, la machine doit refuser l’achat.
+Il y a un stock limité pour chaque produit. Lorsqu’un produit est épuisé, vous devez refuser l’achat.

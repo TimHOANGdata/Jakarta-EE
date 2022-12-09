@@ -23,7 +23,7 @@
             <label>Tigre</label><input type="radio" name="type-animal" value="tigre" />
             <label>Elephant</label><input type="radio" name="type-animal" value="elephant"/> 
             <label for="nom">nom :</label><input type="text" name="nom" id="nom" placeholder="Alexandre"/>
-            <label for="pays">pays :</label><input type="text" name="pays" id="pays" placeholder="Vietnam"/>
+            <label for="pays">pays :</label><input type="text" name="payname="type-animal"s" id="pays" placeholder="Vietnam"/>
             <label for="age">age :</label><input type="text" name="age" id="age"placeholder="5"/>
             <input type="submit" value="Envoyer"/>
         </form>
